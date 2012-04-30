@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Mvc.Extensions</id>
+    <version>1.0.0.0</version>
+    <authors>Ben Keeping</authors>
+    <owners>Ben Keeping</owners>
+    <projectUrl>http://github.com/benjaminkeeping/Mvc.Extensions</projectUrl>
+    <description>Some extensions for ASP.NET MVC for rendering forms, links, errors, paging etc over the wire. Forms elements, lists, buttons etc designed to work with Twitter Bootstrap</description>
+    <copyright>Copyright Ben Keeping 2012</copyright>
+    <dependencies>
+      <dependency id="Restful.Wiretypes" version="1.0.0.0" />
+    </dependencies>
+    
+  </metadata>
+</package>
