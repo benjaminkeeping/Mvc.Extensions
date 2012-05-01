@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnchorLinkExtensions.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="PaginationExtensions.cs" />
     <Compile Include="FormExtensions.cs" />
     <Compile Include="FormInputExtensions.cs" />
     <Compile Include="MvcExtensions.cs" />

@@ -11,6 +11,7 @@ namespace Mvc.Extensions
 
         public static MvcHtmlString Links(this HtmlHelper htmlHelper, IEnumerable<Link> links, bool showSelf)
         {
+            if (links == null) return new MvcHtmlString("");
             var buffer = new StringBuilder();
             buffer.Append("<ul class=\"unstyled\">");
             if (!showSelf)
@@ -29,6 +30,7 @@ namespace Mvc.Extensions
 
         public static MvcHtmlString Link(this HtmlHelper htmlHelper, Link link)
         {
+            if (link == null) return new MvcHtmlString("");
             return new MvcHtmlString(string.Format("<a href=\"{0}\">{1}</a>", link.Href, link.Title));
         }
 
