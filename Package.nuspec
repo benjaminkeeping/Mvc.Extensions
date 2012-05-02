@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Mvc.Extensions</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <authors>Ben Keeping</authors>
     <owners>Ben Keeping</owners>
     <projectUrl>http://github.com/benjaminkeeping/Mvc.Extensions</projectUrl>

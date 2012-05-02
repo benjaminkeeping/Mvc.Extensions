@@ -16,6 +16,7 @@ namespace Mvc.Extensions
             var expression = GetMemberInfo(action);
             var name = expression.Member.Name.FriendlyName();
             var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as Field<string>;
+            if (!field.Viewable) return new MvcHtmlString("");
             var type = "text";
             if (name.ToLower().Contains("password"))
                 type = "password";
