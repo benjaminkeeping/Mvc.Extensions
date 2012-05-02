@@ -8,7 +8,6 @@ namespace Mvc.Extensions
 {
     public static class AnchorLinkExtensions
     {
-
         public static MvcHtmlString Links(this HtmlHelper htmlHelper, IEnumerable<Link> links, bool showSelf)
         {
             if (links == null) return new MvcHtmlString("");
