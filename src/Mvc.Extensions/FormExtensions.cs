@@ -10,6 +10,12 @@ namespace Mvc.Extensions
 {
     public static class FormExtensions
     {
+        public static MvcForm BeginFormWithErrors<T>(this HtmlHelper<T> htmlHelper, object htmlAttributes)
+        {
+            return htmlHelper.BeginFormWithErrors(htmlHelper.ViewContext.HttpContext.Request.Url.PathAndQuery,
+                                                  FormMethod.Post, htmlAttributes);
+        }
+
         public static MvcForm BeginFormWithErrors<T>(this HtmlHelper<T> htmlHelper)
         {
             return htmlHelper.BeginFormWithErrors(htmlHelper.ViewContext.HttpContext.Request.Url.PathAndQuery,
