@@ -82,7 +82,7 @@ namespace Mvc.Extensions
             return new MvcHtmlString(string.Format("<a href=\"{0}\" class=\"btn btn-primary btn-large\">{1}</a>", href, name));
         }
 
-        private static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<string> options, string displayName, string helpText, Expression<Func<T, object>> action)
+        public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<string> options, string displayName, string helpText, Expression<Func<T, object>> action)
         {
             var expression = GetMemberInfo(action);
             var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
@@ -96,6 +96,35 @@ namespace Mvc.Extensions
             foreach (var option in options)
             {
                 builder.Append(string.Format("<option name={0}>{0}</option>", option));
+            }
+            builder.Append("</select>");
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
+            AppendFormEndOfInputWrappers(builder);
+            return new MvcHtmlString(builder.ToString());
+        }
+
+        public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string displayName, string helpText, Expression<Func<T, object>> action)
+        {
+            var expression = GetMemberInfo(action);
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
+            var inputName = expression.Member.Name;
+            var value = field != null ? field.ToString() : "";
+
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
+            builder.Append(string.Format("\n\t\t<select name=\"{0}\" class=\"xlarge\"/>", inputName));
+            if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
+            {
+                builder.Append("<option>Select ...</option>");                
+            }
+            else
+            {
+                var keyValue = options.Where(x => x.Key == value).First();
+                builder.Append(string.Format("<option value={0}>{1}</option>",keyValue.Key, keyValue.Value));
+            }
+            foreach (var option in options)
+            {
+                builder.Append(string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
             }
             builder.Append("</select>");
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));

@@ -67,8 +67,8 @@ namespace Mvc.Extensions
 
         public static MvcHtmlString FormErrors<T>(this HtmlHelper<T> htmlHelper)
         {
-            var methods = typeof(T).GetProperties().Select(x => x.Name);
-            var errorNamesNotOnModel = htmlHelper.ViewData.ModelState.Keys.Where(x => !methods.Contains(x));
+            var methods = typeof(T).GetProperties().Select(x => x.Name.ToLower());
+            var errorNamesNotOnModel = htmlHelper.ViewData.ModelState.Keys.Where(x => !methods.Contains(x.ToLower()));
 
             var liHtml = new StringBuilder();
             foreach (var errorName in errorNamesNotOnModel)
