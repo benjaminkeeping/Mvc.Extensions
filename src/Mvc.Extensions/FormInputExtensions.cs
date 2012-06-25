@@ -10,11 +10,15 @@ namespace Mvc.Extensions
 {
     public static class FormInputExtensions
     {
+        public static string GetMemberName<T>(this HtmlHelper<T> htmlHelper, Expression<Func<T, object>> action)
+        {
+            return GetMemberInfo(action).Member.Name;
+        }
+
         public static MvcHtmlString BuildEditableField<T>(this HtmlHelper<T> htmlHelper,
                                                           Expression<Func<T, object>> action)
         {
-            var expression = GetMemberInfo(action);
-            var name = expression.Member.Name.FriendlyName();
+            var name = htmlHelper.GetMemberName(action).FriendlyName();
             var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as Field<string>;
             if (!field.Viewable) return new MvcHtmlString("");
             var type = "text";
