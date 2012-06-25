@@ -77,7 +77,7 @@ namespace Mvc.Extensions
                     x =>
                         liHtml.Append(
                             string.Format(
-                                "<li><span class=\"label label-warning\">Ooops!</span><span> {0}</span></li>",
+                                "<li><span class=\"label label-warning\"><span> {0}</span></li>",
                                 x.ErrorMessage)));
             }
             return liHtml.Length == 0
