@@ -10,7 +10,12 @@ namespace Mvc.Extensions
     {
         public static void AddErrors(this ModelStateDictionary modelState, IEnumerable<Error> errors)
         {
-            errors.ToList().ForEach(err => modelState.AddModelError(err.Key, err.Value));
+            errors.ToList().ForEach(err =>
+            {
+                if (err != null)
+                    modelState.AddModelError(err.Key, err.Value);
+                else modelState.AddModelError("Unknown", "Error was null (something really bad probably happened)");
+            });
         }
 
         public static ActionResult WithModelErrors(this ActionResult result, ModelStateDictionary modelState, IEnumerable<Error> errors)
