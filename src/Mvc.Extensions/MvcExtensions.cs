@@ -12,9 +12,21 @@ namespace Mvc.Extensions
         {
             errors.ToList().ForEach(err =>
             {
-                if (err != null)
+                if (err != null && err.Key != null && err.Value != null)
                     modelState.AddModelError(err.Key, err.Value);
-                else modelState.AddModelError("Unknown", "Error was null (something really bad probably happened)");
+                else
+                {
+                    if (err == null)
+                        modelState.AddModelError("Unknown", "Error was null (something really bad probably happened)");
+                    else if (err.Key == null && err.Value != null)
+                        modelState.AddModelError("Unknown", err.Value);
+                    else if (err.Key != null && err.Value == null)
+                        modelState.AddModelError(err.Key, "Error value was null (something really bad probably happened)");
+                    else
+                        modelState.AddModelError("Unknown", "Error was null (something really bad probably happened)");
+
+                }
+
             });
         }
 
