@@ -17,7 +17,17 @@ namespace Mvc.Extensions
                                           x =>
                                               string.Format("<li{0}>{1}</li>", GetPageElementClass(x),
                                                             htmlHelper.Link(x)))));
-            buffer.Append("</ul>");
+            buffer.Append("</ul>");            
+            return new MvcHtmlString(buffer.ToString());
+        }
+
+        public static MvcHtmlString PaginationWithPageOf<T>(this HtmlHelper htmlHelper, Page<T> page)
+        {
+            var pagination = Pagination(htmlHelper, page);
+
+            var buffer = new StringBuilder(pagination.ToString());
+            buffer.Append(string.Format("<span class=\"pagination\">Page {0} of {1}</span>", page.CurrentPage, page.TotalPages));
+
             return new MvcHtmlString(buffer.ToString());
         }
 
