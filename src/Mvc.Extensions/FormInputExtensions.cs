@@ -116,7 +116,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
             if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
             {
                 builder.Append("<option>Select ...</option>");                
