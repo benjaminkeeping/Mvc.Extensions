@@ -60,11 +60,11 @@ namespace Mvc.Extensions
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
             if (inputType == "typeahead")
             {
-                builder.Append(string.Format("\n\t\t<input type=\"text\" autocomplete=\"off\" data-provide=\"typeahead\" data-source='[{3}]' name=\"{0}\" placeholder=\"{1}\" value=\"{2}\" class=\"xlarge\"/>", inputName, placeholder, value, string.Join(",", typeaheadData.Select(x => string.Format("\"{0}\"", x)))));
+                builder.Append(string.Format("\n\t\t<input type=\"text\" autocomplete=\"off\" data-provide=\"typeahead\" data-source='[{3}]' id=\"{0}\" name=\"{0}\" placeholder=\"{1}\" value=\"{2}\" class=\"xlarge\"/>", inputName, placeholder, value, string.Join(",", typeaheadData.Select(x => string.Format("\"{0}\"", x)))));
             }
             else
             {
-                builder.Append(string.Format("\n\t\t<input {0} type=\"{1}\" name=\"{2}\" placeholder=\"{3}\" value=\"{4}\" class=\"xlarge\"/>", @readonly ? "readonly=\"readonly\"" : "", inputType, inputName, placeholder, value));
+                builder.Append(string.Format("\n\t\t<input {0} type=\"{1}\" id=\"{0}\" name=\"{2}\" placeholder=\"{3}\" value=\"{4}\" class=\"xlarge\"/>", @readonly ? "readonly=\"readonly\"" : "", inputType, inputName, placeholder, value));
             }
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
             AppendFormEndOfInputWrappers(builder);
@@ -95,7 +95,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
             builder.Append(string.Format("<option name={0}>{0}</option>", value));
             foreach (var option in options)
             {
