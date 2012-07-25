@@ -96,6 +96,25 @@ namespace Mvc.Extensions
             return new MvcHtmlString(string.Format("<a href=\"{0}\" class=\"btn btn-primary btn-large\">{1}</a>", href, name));
         }
 
+        public static MvcHtmlString BuildRadioButtons<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string displayName, string helpText, Expression<Func<T, object>> action, string radioButtonSeparatorasHtml = "<br/>")
+        {
+            var expression = GetMemberInfo(action);
+            var inputName = expression.Member.Name;
+
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
+
+            foreach (var option in options)
+            {
+                builder.Append(string.Format("\n\t\t<input type=\"radio\" name=\"{0}\" value=\"{1}\" class=\"xlarge\"/> {2}{3}", inputName, option.Key, option.Value, radioButtonSeparatorasHtml));
+
+            }
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
+            AppendFormEndOfInputWrappers(builder);
+            return new MvcHtmlString(builder.ToString());
+        }
+
+
         public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<string> options, string displayName, string helpText, Expression<Func<T, object>> action)
         {
             var expression = GetMemberInfo(action);
