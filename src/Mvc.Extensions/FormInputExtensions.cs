@@ -35,6 +35,11 @@ namespace Mvc.Extensions
             return htmlHelper.BuildInput(false, "typeahead", placeholder, displayName, "", action, data);
         }
 
+        public static MvcHtmlString BuildFormTextInput<T>(this HtmlHelper<T> htmlHelper, bool @readonly, string placeholder, string displayName, Expression<Func<T, object>> action)
+        {
+            return htmlHelper.BuildFormTextInput(@readonly, placeholder, displayName, "", action);
+        }
+
         public static MvcHtmlString BuildFormTextInput<T>(this HtmlHelper<T> htmlHelper, string placeholder, string displayName, Expression<Func<T, object>> action)
         {
             return htmlHelper.BuildFormTextInput(placeholder, displayName, "", action);
@@ -43,6 +48,11 @@ namespace Mvc.Extensions
         public static MvcHtmlString BuildFormTextInput<T>(this HtmlHelper<T> htmlHelper, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action)
         {
             return htmlHelper.BuildInput(false, "text", placeholder, displayName, helpText, action, null);
+        }
+
+        public static MvcHtmlString BuildFormTextInput<T>(this HtmlHelper<T> htmlHelper, bool @readonly, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action)
+        {
+            return htmlHelper.BuildInput(@readonly, "text", placeholder, displayName, helpText, action, null);
         }
 
         public static MvcHtmlString BuildFormPasswordInput<T>(this HtmlHelper<T> htmlHelper, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action)
