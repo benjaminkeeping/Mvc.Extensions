@@ -64,7 +64,7 @@ namespace Mvc.Extensions
             }
             else
             {
-                builder.Append(string.Format("\n\t\t<input {0} type=\"{1}\" id=\"{0}\" name=\"{2}\" placeholder=\"{3}\" value=\"{4}\" class=\"xlarge\"/>", @readonly ? "readonly=\"readonly\"" : "", inputType, inputName, placeholder, value));
+                builder.Append(string.Format("\n\t\t<input {0} type=\"{1}\" id=\"{2}\" name=\"{2}\" placeholder=\"{3}\" value=\"{4}\" class=\"xlarge\"/>", @readonly ? "readonly=\"readonly\"" : "", inputType, inputName, placeholder, value));
             }
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
             AppendFormEndOfInputWrappers(builder);
