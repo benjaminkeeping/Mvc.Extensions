@@ -100,13 +100,15 @@ namespace Mvc.Extensions
         {
             var expression = GetMemberInfo(action);
             var inputName = expression.Member.Name;
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
+            var value = field != null ? field.ToString() : "";
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
 
             foreach (var option in options)
             {
-                builder.Append(string.Format("\n\t\t<input type=\"radio\" name=\"{0}\" value=\"{1}\" class=\"xlarge\"/> {2}{3}", inputName, option.Key, option.Value, radioButtonSeparatorasHtml));
+                builder.Append(string.Format("\n\t\t<input type=\"radio\" name=\"{0}\" value=\"{1}\" class=\"xlarge\" {4}/> {2}{3}", inputName, option.Key, option.Value, radioButtonSeparatorasHtml, option.Key.ToLower() == value.ToLower() ? "checked" : ""));
 
             }
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
