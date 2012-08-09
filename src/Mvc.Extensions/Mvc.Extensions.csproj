@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Restful.Wiretypes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Restful.Wiretypes.1.0.0.14\lib\net40\Restful.Wiretypes.dll</HintPath>
+      <HintPath>..\packages\Restful.Wiretypes.1.0.0.15\lib\net40\Restful.Wiretypes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

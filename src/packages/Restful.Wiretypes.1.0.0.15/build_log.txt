@@ -1,0 +1,21 @@
+Microsoft (R) Build Engine Version 4.0.30319.1
+[Microsoft .NET Framework, Version 4.0.30319.269]
+Copyright (C) Microsoft Corporation 2007. All rights reserved.
+
+Build started 09/08/2012 13:58:38.
+Project "c:\Projects\Restful.Wiretypes\src\Restful.Wiretypes\Restful.Wiretypes.csproj" on node 1 (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+  c:\Windows\Microsoft.NET\Framework\v4.0.30319\Csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:prompt /warn:4 /define:TRACE /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.CSharp.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.DataSetExtensions.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Runtime.Serialization.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.Linq.dll" /debug:pdbonly /filealign:512 /optimize+ /out:obj\Release\Restful.Wiretypes.dll /target:library Error.cs Field.cs FieldWithGroupedOptions.cs GroupOf.cs Link.cs Page.cs PageInfo.cs Properties\AssemblyInfo.cs "C:\Users\ben\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+CopyFilesToOutputDirectory:
+  Copying file from "obj\Release\Restful.Wiretypes.dll" to "bin\Release\Restful.Wiretypes.dll".
+  Restful.Wiretypes -> c:\Projects\Restful.Wiretypes\src\Restful.Wiretypes\bin\Release\Restful.Wiretypes.dll
+  Copying file from "obj\Release\Restful.Wiretypes.pdb" to "bin\Release\Restful.Wiretypes.pdb".
+Done Building Project "c:\Projects\Restful.Wiretypes\src\Restful.Wiretypes\Restful.Wiretypes.csproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.29
