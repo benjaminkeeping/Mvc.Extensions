@@ -152,14 +152,11 @@ namespace Mvc.Extensions
             {
                 builder.Append("<option>Select ...</option>");                
             }
-            else
-            {
-                var keyValue = options.Where(x => x.Key == value).First();
-                builder.Append(string.Format("<option value={0}>{1}</option>",keyValue.Key, keyValue.Value));
-            }
             foreach (var option in options)
             {
-                builder.Append(string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                builder.Append(option.Key == value
+                    ? string.Format("<option value={0} selected>{1}</option>", option.Key, option.Value)
+                    : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
             }
             builder.Append("</select>");
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
@@ -177,22 +174,20 @@ namespace Mvc.Extensions
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
             builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            var allOptions = groupOfOptions.SelectMany(x => x.Items);
+            if (string.IsNullOrWhiteSpace(value) || allOptions.Where(x => x.Key == value).Count() == 0)
+            {
+                builder.Append("<option>Select ...</option>");
+            }
             foreach (var group in groupOfOptions)
             {
                 builder.Append(string.Format("<optgroup id=\"{0}\"label=\"{1}\">", group.GroupId, group.GroupName));
                 var options = group.Items;
-                if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
-                {
-                    builder.Append("<option>Select ...</option>");
-                }
-                else
-                {
-                    var keyValue = options.Where(x => x.Key == value).First();
-                    builder.Append(string.Format("<option value={0}>{1}</option>", keyValue.Key, keyValue.Value));
-                }
                 foreach (var option in options)
                 {
-                    builder.Append(string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                    builder.Append(option.Key == value
+                        ? string.Format("<option value={0} selected>{1}</option>", option.Key, option.Value)
+                        : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
                 }
                 builder.Append("</optgroup>");
 
