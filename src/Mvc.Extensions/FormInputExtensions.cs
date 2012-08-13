@@ -20,14 +20,32 @@ namespace Mvc.Extensions
         {
             var name = htmlHelper.GetMemberName(action).FriendlyName();
             var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as Field<string>;
+            if (field == null) return htmlHelper.BuildEditableGroupeOptionsField(action);
             if (!field.Viewable) return new MvcHtmlString("");
-            var type = "text";
-            if (name.ToLower().Contains("password"))
-                type = "password";
+
+            var type = GetTextBoxInputType(name);
 
             if (field.Options.Count > 0)
                 return htmlHelper.BuildSelect(field.Options, name, "", action);
             return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
+        }
+
+        static MvcHtmlString BuildEditableGroupeOptionsField<T>(this HtmlHelper<T> htmlHelper,
+                                                          Expression<Func<T, object>> action)
+        {
+            var name = htmlHelper.GetMemberName(action).FriendlyName();
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as FieldWithGroupedOptions<string>;
+            if (!field.Viewable) return new MvcHtmlString("");
+
+            var type = GetTextBoxInputType(name);
+            if (field.Options.Count > 0)
+                return htmlHelper.BuildSelect(field.Options, name, "", action);
+            return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
+        }
+
+        static string GetTextBoxInputType(string name)
+        {
+            return name.ToLower().Contains("password") ? "password" : "text";
         }
 
         public static MvcHtmlString BuildTypeAhead<T>(this HtmlHelper<T> htmlHelper, string placeholder, string displayName, Expression<Func<T, object>> action, IEnumerable<string> data)
