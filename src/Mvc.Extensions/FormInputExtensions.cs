@@ -144,7 +144,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", inputName));
             builder.Append(string.Format("<option name={0}>{0}</option>", value));
             foreach (var option in options)
             {
@@ -165,7 +165,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", inputName));
             if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
             {
                 builder.Append("<option>Select ...</option>");                
@@ -191,7 +191,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", inputName));
             var allOptions = groupOfOptions.SelectMany(x => x.Items);
             if (string.IsNullOrWhiteSpace(value) || allOptions.Where(x => x.Key == value).Count() == 0)
             {
