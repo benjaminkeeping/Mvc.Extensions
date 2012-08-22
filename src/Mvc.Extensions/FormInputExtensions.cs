@@ -15,16 +15,15 @@ namespace Mvc.Extensions
             return GetMemberInfo(action).Member.Name;
         }
 
+
         static MvcHtmlString BuildEditableFieldWithGroups<T>(this HtmlHelper<T> htmlHelper,
                                                           Expression<Func<T, object>> action)
         {
             var name = htmlHelper.GetMemberName(action).FriendlyName();
             var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as FieldWithGroupedOptions<string>;
             if (!field.Viewable) return new MvcHtmlString("");
-            var type = "text";
-            if (name.ToLower().Contains("password"))
-                type = "password";
 
+            var type = GetTextBoxInputType(name);
             if (field.Options.Count > 0)
                 return htmlHelper.BuildSelect(field.Options, name, "", action);
             return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
@@ -41,19 +40,6 @@ namespace Mvc.Extensions
 
             var type = GetTextBoxInputType(name);
 
-            if (field.Options.Count > 0)
-                return htmlHelper.BuildSelect(field.Options, name, "", action);
-            return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
-        }
-
-        static MvcHtmlString BuildEditableGroupeOptionsField<T>(this HtmlHelper<T> htmlHelper,
-                                                          Expression<Func<T, object>> action)
-        {
-            var name = htmlHelper.GetMemberName(action).FriendlyName();
-            var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as FieldWithGroupedOptions<string>;
-            if (!field.Viewable) return new MvcHtmlString("");
-
-            var type = GetTextBoxInputType(name);
             if (field.Options.Count > 0)
                 return htmlHelper.BuildSelect(field.Options, name, "", action);
             return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
