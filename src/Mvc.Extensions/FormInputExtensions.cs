@@ -38,13 +38,30 @@ namespace Mvc.Extensions
             if (field == null)
                 return htmlHelper.BuildEditableFieldWithGroups(action);
             if (!field.Viewable) return new MvcHtmlString("");
-            var type = "text";
-            if (name.ToLower().Contains("password"))
-                type = "password";
+
+            var type = GetTextBoxInputType(name);
 
             if (field.Options.Count > 0)
                 return htmlHelper.BuildSelect(field.Options, name, "", action);
             return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
+        }
+
+        static MvcHtmlString BuildEditableGroupeOptionsField<T>(this HtmlHelper<T> htmlHelper,
+                                                          Expression<Func<T, object>> action)
+        {
+            var name = htmlHelper.GetMemberName(action).FriendlyName();
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model) as FieldWithGroupedOptions<string>;
+            if (!field.Viewable) return new MvcHtmlString("");
+
+            var type = GetTextBoxInputType(name);
+            if (field.Options.Count > 0)
+                return htmlHelper.BuildSelect(field.Options, name, "", action);
+            return htmlHelper.BuildInput(!field.Editable, type, "", name, "", action, null);
+        }
+
+        static string GetTextBoxInputType(string name)
+        {
+            return name.ToLower().Contains("password") ? "password" : "text";
         }
 
         public static MvcHtmlString BuildTypeAhead<T>(this HtmlHelper<T> htmlHelper, string placeholder, string displayName, Expression<Func<T, object>> action, IEnumerable<string> data)
@@ -143,7 +160,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", inputName));
             builder.Append(string.Format("<option name={0}>{0}</option>", value));
             foreach (var option in options)
             {
@@ -164,7 +181,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", inputName));
             if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
             {
                 builder.Append("<option>Select ...</option>");                
@@ -190,7 +207,7 @@ namespace Mvc.Extensions
 
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\"/>", inputName));
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", inputName));
             var allOptions = groupOfOptions.SelectMany(x => x.Items);
             if (string.IsNullOrWhiteSpace(value) || allOptions.Where(x => x.Key == value).Count() == 0)
             {
