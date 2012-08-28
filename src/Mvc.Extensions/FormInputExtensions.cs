@@ -109,7 +109,7 @@ namespace Mvc.Extensions
             var value = field != null ? field.ToString() : "";
             var builder = new StringBuilder();
             AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
-            builder.Append(string.Format("\n\t\t<textarea cols=\"{0}\" rows=\"{1}\"class=\"xlarge {2}\">{3}</textarea>", cols, rows, classesString, value));
+            builder.Append(string.Format("\n\t\t<textarea cols=\"{0}\" rows=\"{1}\"class=\"xlarge {2}\" name=\"{3}\" id=\"{3}\">{4}</textarea>", cols, rows, classesString, inputName, value));
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
             AppendFormEndOfInputWrappers(builder);
             return new MvcHtmlString(builder.ToString());
