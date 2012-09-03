@@ -75,12 +75,23 @@ namespace Mvc.Extensions
             return htmlHelper.BuildInput(@readonly, "text", placeholder, displayName, helpText, action, null);
         }
 
+        public static MvcHtmlString BuildFormTextInput<T>(this HtmlHelper<T> htmlHelper, string id, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action)
+        {
+            return htmlHelper.BuildInput(id, false, "text", placeholder, displayName, helpText, action, null);
+        }
+
         public static MvcHtmlString BuildFormPasswordInput<T>(this HtmlHelper<T> htmlHelper, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action)
         {
             return htmlHelper.BuildInput(false, "password", placeholder, displayName, helpText, action, null);
         }
 
         private static MvcHtmlString BuildInput<T>(this HtmlHelper<T> htmlHelper, bool @readonly, string inputType, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action, IEnumerable<string> typeaheadData)
+        {
+
+            return htmlHelper.BuildInput("", @readonly, inputType, placeholder, displayName, helpText, action, typeaheadData);
+        }
+
+        private static MvcHtmlString BuildInput<T>(this HtmlHelper<T> htmlHelper, string id, bool @readonly, string inputType, string placeholder, string displayName, string helpText, Expression<Func<T, object>> action, IEnumerable<string> typeaheadData)
         {
             var expression = GetMemberInfo(action);
             var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
@@ -94,7 +105,7 @@ namespace Mvc.Extensions
             }
             else
             {
-                builder.Append(string.Format("\n\t\t<input {0} type=\"{1}\" id=\"{2}\" name=\"{2}\" placeholder=\"{3}\" value=\"{4}\" class=\"xlarge\"/>", @readonly ? "readonly=\"readonly\"" : "", inputType, inputName, placeholder, value));
+                builder.Append(string.Format("\n\t\t<input {0} type=\"{1}\" id=\"{2}\" name=\"{2}\" placeholder=\"{3}\" value=\"{4}\" class=\"xlarge\"/>", @readonly ? "readonly=\"readonly\"" : "", inputType, string.IsNullOrWhiteSpace(id) ? inputName : id, placeholder, value));
             }
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
             AppendFormEndOfInputWrappers(builder);
@@ -231,6 +242,65 @@ namespace Mvc.Extensions
             AppendFormEndOfInputWrappers(builder);
             return new MvcHtmlString(builder.ToString());
         }
+
+
+        public static MvcHtmlString BuildMultipleSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string displayName, string placeholder, string helpText, Expression<Func<T, object>> action)
+        {
+            var expression = GetMemberInfo(action);
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
+            var inputName = expression.Member.Name;
+            var value = field != null ? field.ToString() : "";
+
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" multiple=\"\" class=\"xlarge\">", inputName));
+            if ((string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0) && !string.IsNullOrWhiteSpace(placeholder))
+            {
+                builder.Append(string.Format("<option>{0}</option>", placeholder));
+            }
+            foreach (var option in options)
+            {
+                builder.Append(value.Contains(option.Key)
+                    ? string.Format("<option value={0} selected>{1}</option>", option.Key, option.Value)
+                    : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+            }
+            builder.Append("</select>");
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
+            AppendFormEndOfInputWrappers(builder);
+            return new MvcHtmlString(builder.ToString());
+        }
+
+        public static MvcHtmlString BuildSelectWithTextInput<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string selectId, string selectDisplayName, string selectHelpText, Expression<Func<T, object>> selectAction, string textInputId, string textInputPlaceholder, string textInputDisplayName, Expression<Func<T, object>> textInputAction)
+        {
+            var expression = GetMemberInfo(selectAction);
+            var field = selectAction.Compile().Invoke(htmlHelper.ViewData.Model);
+            var inputName = expression.Member.Name;
+            var value = field != null ? field.ToString() : "";
+
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, selectDisplayName);
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", selectId));
+            if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
+            {
+                builder.Append("<option>Select ...</option>");
+            }
+            foreach (var option in options)
+            {
+                builder.Append(option.Key == value
+                    ? string.Format("<option value=\"{0}\" selected>{1}</option>", option.Key, option.Value)
+                    : string.Format("<option value=\"{0}\">{1}</option>", option.Key, option.Value));
+            }
+
+            builder.Append("</select>");
+
+            builder.Append(htmlHelper.BuildFormTextInput(textInputId, textInputPlaceholder, textInputDisplayName, "",
+                                                          textInputAction));
+
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, selectHelpText)));
+            AppendFormEndOfInputWrappers(builder);
+
+            return new MvcHtmlString(builder.ToString());
+        }       
         
         static void AppendFormStartOfInputWrappers<T>(this HtmlHelper<T> htmlHelper, StringBuilder builder, string inputName, string displayName)
         {
