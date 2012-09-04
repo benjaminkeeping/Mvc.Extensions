@@ -183,6 +183,35 @@ namespace Mvc.Extensions
             return new MvcHtmlString(builder.ToString());
         }
 
+        public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string id, string displayName, string helpText, Expression<Func<T, object>> action)
+        {
+            var expression = GetMemberInfo(action);
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
+            var inputName = expression.Member.Name;
+            var value = field != null ? field.ToString() : "";
+
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" class=\"xlarge\">", id));
+            if (string.IsNullOrWhiteSpace(value) || options.Where(x => x.Key == value).Count() == 0)
+            {
+                builder.Append("<option>Select ...</option>");
+            }
+            foreach (var option in options)
+            {
+                builder.Append(option.Key == value
+                    ? string.Format("<option value=\"{0}\" selected=\"selected\">{1}</option>", option.Key, option.Value)
+                    : string.Format("<option value=\"{0}\">{1}</option>", option.Key, option.Value));
+            }
+
+            builder.Append("</select>");
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
+            AppendFormEndOfInputWrappers(builder);
+
+            return new MvcHtmlString(builder.ToString());
+        }
+
+
         public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string displayName, string helpText, Expression<Func<T, object>> action)
         {
             var expression = GetMemberInfo(action);
@@ -200,7 +229,7 @@ namespace Mvc.Extensions
             foreach (var option in options)
             {
                 builder.Append(option.Key == value
-                    ? string.Format("<option value={0} selected>{1}</option>", option.Key, option.Value)
+                    ? string.Format("<option value={0} selected=\"selected\">{1}</option>", option.Key, option.Value)
                     : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
             }
             builder.Append("</select>");
