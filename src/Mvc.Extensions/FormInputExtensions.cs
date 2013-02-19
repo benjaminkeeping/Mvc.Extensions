@@ -272,6 +272,41 @@ namespace Mvc.Extensions
             return new MvcHtmlString(builder.ToString());
         }
 
+        public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<GroupOf<KeyValuePair<string, string>>> groupOfOptions, string displayName, string helpText, string inputName)
+        {
+            return BuildSelect<T>(htmlHelper, groupOfOptions, displayName, helpText, inputName, false);
+        }
+
+        public static MvcHtmlString BuildGroupedMultipleSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<GroupOf<KeyValuePair<string, string>>> groupOfOptions, string displayName, string helpText, Expression<Func<T, object>> action)
+        {
+            var expression = GetMemberInfo(action);
+            var inputName = expression.Member.Name;
+            return BuildSelect<T>(htmlHelper, groupOfOptions, displayName, helpText, inputName, true);
+        }
+
+
+        public static MvcHtmlString BuildSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<GroupOf<KeyValuePair<string, string>>> groupOfOptions, string displayName, string helpText, string inputName, bool multiple)
+        {
+
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, inputName, displayName);
+            builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" {1} class=\"xlarge\">", inputName, multiple ? "multiple=\"\"" : ""));
+            foreach (var group in groupOfOptions)
+            {
+                builder.Append(string.Format("<optgroup id=\"{0}\"label=\"{1}\">", group.GroupId, group.GroupName));
+                var options = group.Items;
+                foreach (var option in options)
+                {
+                    builder.Append(string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                }
+                builder.Append("</optgroup>");
+
+            }
+            builder.Append("</select>");
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
+            AppendFormEndOfInputWrappers(builder);
+            return new MvcHtmlString(builder.ToString());
+        }
 
         public static MvcHtmlString BuildMultipleSelect<T>(this HtmlHelper<T> htmlHelper, IEnumerable<KeyValuePair<string, string>> options, string displayName, string placeholder, string helpText, Expression<Func<T, object>> action)
         {
