@@ -229,8 +229,8 @@ namespace Mvc.Extensions
             foreach (var option in options)
             {
                 builder.Append(option.Key == value
-                    ? string.Format("<option value={0} selected=\"selected\">{1}</option>", option.Key, option.Value)
-                    : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                    ? string.Format("<option value=\"{0}\" selected=\"selected\">{1}</option>", option.Key, option.Value)
+                    : string.Format("<option value=\"{0}\">{1}</option>", option.Key, option.Value));
             }
             builder.Append("</select>");
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
@@ -260,8 +260,8 @@ namespace Mvc.Extensions
                 foreach (var option in options)
                 {
                     builder.Append(option.Key == value
-                        ? string.Format("<option value={0} selected>{1}</option>", option.Key, option.Value)
-                        : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                        ? string.Format("<option value=\"{0}\" selected>{1}</option>", option.Key, option.Value)
+                        : string.Format("<option value=\"{0}\">{1}</option>", option.Key, option.Value));
                 }
                 builder.Append("</optgroup>");
 
@@ -297,7 +297,7 @@ namespace Mvc.Extensions
                 var options = group.Items;
                 foreach (var option in options)
                 {
-                    builder.Append(string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                    builder.Append(string.Format("<option value=\"{0}\">{1}</option>", option.Key, option.Value));
                 }
                 builder.Append("</optgroup>");
 
@@ -325,8 +325,8 @@ namespace Mvc.Extensions
             foreach (var option in options)
             {
                 builder.Append(value.Contains(option.Key)
-                    ? string.Format("<option value={0} selected>{1}</option>", option.Key, option.Value)
-                    : string.Format("<option value={0}>{1}</option>", option.Key, option.Value));
+                    ? string.Format("<option value=\"{0}\" selected>{1}</option>", option.Key, option.Value)
+                    : string.Format("<option value=\"{0}\">{1}</option>", option.Key, option.Value));
             }
             builder.Append("</select>");
             builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(inputName, helpText)));
