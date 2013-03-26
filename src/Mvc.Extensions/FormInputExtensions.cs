@@ -255,7 +255,7 @@ namespace Mvc.Extensions
             }
             foreach (var group in groupOfOptions)
             {
-                builder.Append(string.Format("<optgroup id=\"{0}\"label=\"{1}\">", group.GroupId, group.GroupName));
+                builder.Append(string.Format("<optgroup id=\"{0}\" label=\"{1}\">", group.GroupId, group.GroupName));
                 var options = group.Items;
                 foreach (var option in options)
                 {
@@ -293,7 +293,7 @@ namespace Mvc.Extensions
             builder.Append(string.Format("\n\t\t<select id=\"{0}\" name=\"{0}\" {1} class=\"xlarge\">", inputName, multiple ? "multiple=\"\"" : ""));
             foreach (var group in groupOfOptions)
             {
-                builder.Append(string.Format("<optgroup id=\"{0}\"label=\"{1}\">", group.GroupId, group.GroupName));
+                builder.Append(string.Format("<optgroup id=\"{0}\" label=\"{1}\">", group.GroupId, group.GroupName));
                 var options = group.Items;
                 foreach (var option in options)
                 {
